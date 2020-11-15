@@ -1,7 +1,6 @@
 import React from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
-import moment from 'moment';
 import { Button, Input, Checkbox, Form } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
@@ -30,40 +29,40 @@ class TaskModal extends React.Component {
         this.setState((prevState) => ({ completed: !prevState.completed }));
     }
 
-    handleSaveTask = e => {
+    handleSaveTask = async e => {
         e.preventDefault();
-        axios.patch(`${process.env.REACT_APP_API_ENDPOINT}/tasks/${this.props.task._id}`, {
-            description: this.state.description,
-            completed: this.state.completed,
-        }, {
-            headers: {
-                Authorization: this.props.authToken
-            }
-        }).then(res => {
-            console.log(res);
+        try {
+            await axios.patch(`${process.env.REACT_APP_API_ENDPOINT}/tasks/${this.props.task._id}`, {
+                description: this.state.description,
+                completed: this.state.completed,
+            }, {
+                headers: {
+                    Authorization: this.props.authToken
+                }
+            });
             this.props.closeModal();
             this.props.updateTaskList();
-        }).catch(err => {
+        } catch (err) {
             console.log(err);
-        })
+        }
     }
 
-    handleDeleteTask = e => {
+    handleDeleteTask = async e => {
         e.preventDefault();
-        axios.delete(`http://localhost:3000/tasks/${this.props.task._id}`, {
-            headers: {
-                Authorization: this.props.authToken
-            }
-        }).then(res => {
+        try {
+            await axios.delete(`http://localhost:3000/tasks/${this.props.task._id}`, {
+                headers: {
+                    Authorization: this.props.authToken
+                }
+            })
             this.props.closeModal();
             this.props.updateTaskList();
-        }).catch(err => {
+        } catch (err) {
             console.log(err);
-        })
+        }
     }
 
     render() {
-        const createdAt = moment(this.props.task.createdAt).format('MMMM Do YYYY, h:mm:ss a');
 
         const customStyles = {
             content: {
@@ -75,6 +74,7 @@ class TaskModal extends React.Component {
                 transform: 'translate(-50%, -50%)'
             }
         };
+
         return (
             <Modal
                 isOpen={this.props.isOpen}
@@ -99,7 +99,6 @@ class TaskModal extends React.Component {
                             onChange={this.handleChangeCompletion}
                         />
                     </Form.Field>
-                    <p>Created At: {createdAt}</p>
                     <Button primary onClick={this.handleSaveTask}>Save Changes</Button>
                     <Button onClick={this.handleDeleteTask}>Delete Task</Button>
                     <Button onClick={this.props.closeModal}>Close</Button>

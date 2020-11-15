@@ -15,18 +15,19 @@ class AddTaskModal extends React.Component {
         this.setState(() => ({ description }));
     }
 
-    submitTask = () => {
-        axios.post(`${process.env.REACT_APP_API_ENDPOINT}/tasks`, { description: this.state.description }, {
-            headers: {
-                Authorization: this.props.authToken
-            }
-        }).then(res => {
+    submitTask = async () => {
+        try {
+            await axios.post(`${process.env.REACT_APP_API_ENDPOINT}/tasks`, { description: this.state.description }, {
+                headers: {
+                    Authorization: this.props.authToken
+                }
+            });
             this.props.closeModal();
             this.props.updateTaskList();
             this.setState(() => ({ description: '' }));
-        }).catch(err => {
+        } catch (err) {
             console.log(err.response.data.error);
-        });
+        }
     }
 
     render() {

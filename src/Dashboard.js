@@ -17,21 +17,23 @@ class Dashboard extends React.Component {
         selectedTask: {},
     }
 
-    updateTaskList = (options) => {
-        let url = `${process.env.REACT_APP_API_ENDPOINT}/tasks`;
-        if (options) {
-            url += '?sortBy=' + options.sortedBy + ':';
-            url += options.sortDirection === 'ascending' ? 'asc' : 'desc';
-        }
-        axios.get(url, {
-            headers: {
-                Authorization: this.props.authToken
+    updateTaskList = async (options) => {
+        try {
+            let url = `${process.env.REACT_APP_API_ENDPOINT}/tasks`;
+            if (options) {
+                url += '?sortBy=' + options.sortedBy + ':';
+                url += options.sortDirection === 'ascending' ? 'asc' : 'desc';
             }
-        }).then(res => {
+            const res = await axios.get(url, {
+                headers: {
+                    Authorization: this.props.authToken
+                }
+            })
             this.setState(() => ({ tasks: res.data }));
-        }).catch(err => {
+        }
+        catch (err) {
             console.log(err.response.data.error);
-        });
+        }
     }
 
     componentDidMount = () => {

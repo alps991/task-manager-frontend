@@ -15,33 +15,36 @@ class App extends React.Component {
     isUserModalOpen: false,
   }
 
-  handleLogin = (e, email, password) => {
+  handleLogin = async (e, email, password) => {
     e.preventDefault();
-    axios.post(`${process.env.REACT_APP_API_ENDPOINT}/users/login`, { email, password }).then(res => {
+    try {
+      const res = await axios.post(`${process.env.REACT_APP_API_ENDPOINT}/users/login`, { email, password });
       const authToken = 'Bearer ' + res.data.token;
       const curUser = res.data.user;
       this.setState(() => ({ curUser, authToken }));
-    }).catch(err => {
+    } catch (err) {
       console.log(err.response.data.error);
-    });
+    }
   }
 
-  handleLogout = () => {
-    axios.post(`${process.env.REACT_APP_API_ENDPOINT}/users/logoutAll`, {}, {
-      headers: {
-        Authorization: this.state.authToken
-      }
-    }).then(res => {
+  handleLogout = async () => {
+    try {
+      await axios.post(`${process.env.REACT_APP_API_ENDPOINT}/users/logoutAll`, {}, {
+        headers: {
+          Authorization: this.state.authToken
+        }
+      })
       this.setState(() => ({ curUser: '', authToken: '' }));
-    }).catch(err => {
+    }
+    catch (err) {
       console.log(err.response.data.error);
-    });
+    }
   }
 
-  handleCreateUser = (e, formData) => {
-    console.log(formData)
+  handleCreateUser = async (e, formData) => {
     e.preventDefault();
-    axios.post(`${process.env.REACT_APP_API_ENDPOINT}/users`, formData).then(res => {
+    try {
+      const res = await axios.post(`${process.env.REACT_APP_API_ENDPOINT}/users`, formData)
       const authToken = 'Bearer ' + res.data.token;
       const curUser = res.data.user;
       this.setState(() => ({
@@ -49,43 +52,46 @@ class App extends React.Component {
         authToken,
         isUserModalOpen: false,
       }));
-    }).catch(err => {
+    } catch (err) {
       console.log(err.response.data.error);
-    });
+    }
   }
 
-  handleSaveUser = (e, updates) => {
+  handleSaveUser = async (e, updates) => {
     e.preventDefault();
-    if (!updates.password) {
-      delete updates.password;
-    }
-    axios.patch(`${process.env.REACT_APP_API_ENDPOINT}/users/me`, updates, {
-      headers: {
-        Authorization: this.state.authToken
+    try {
+      if (!updates.password) {
+        delete updates.password;
       }
-    }).then(res => {
+      const res = await axios.patch(`${process.env.REACT_APP_API_ENDPOINT}/users/me`, updates, {
+        headers: {
+          Authorization: this.state.authToken
+        }
+      })
       const curUser = res.data.user;
       this.setState(() => ({
         curUser,
         isUserModalOpen: false,
       }));
       this.props.closeModal();
-    }).catch(err => {
+    } catch (err) {
       console.log(err);
-    });
+    }
   }
 
-  handleDeleteUser = e => {
+  handleDeleteUser = async e => {
     e.preventDefault();
-    axios.delete(`${process.env.REACT_APP_API_ENDPOINT}/users/me`, {
-      headers: {
-        Authorization: this.state.authToken
-      }
-    }).then(res => {
+    try {
+      await axios.delete(`${process.env.REACT_APP_API_ENDPOINT}/users/me`, {
+        headers: {
+          Authorization: this.state.authToken
+        }
+      });
       this.setState(() => ({ curUser: '', authToken: '' }));
-    }).catch(err => {
+    }
+    catch (err) {
       console.log(err);
-    });
+    }
   }
 
   openUserModal = () => {

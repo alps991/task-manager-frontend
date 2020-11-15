@@ -45,7 +45,7 @@ class UserModal extends React.Component {
 
     render() {
 
-        const createdAt = this.props.user ? moment(this.props.user.createdAt).format('MMMM Do YYYY, h:mm:ss a') : null;
+        const createdAt = this.props.user ? moment(this.props.user.createdAt).format('MMM Do YYYY') : null;
         const customStyles = {
             content: {
                 top: '50%',
@@ -104,7 +104,7 @@ class UserModal extends React.Component {
                     {
                         this.props.user ? (
                             <div>
-                                {createdAt ? <p>{createdAt}</p> : null}
+                                {createdAt ? <p>User since {createdAt}</p> : null}
                                 <Button primary onClick={(e) => this.props.handleSaveUser(e, this.state)}>Save Changes</Button>
                                 <Button color='red' onClick={this.props.handleDeleteUser}>Delete Account</Button>
                                 <Button secondary onClick={this.props.handleLogout}>Logout</Button>
