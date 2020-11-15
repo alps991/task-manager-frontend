@@ -16,7 +16,7 @@ class AddTaskModal extends React.Component {
     }
 
     submitTask = () => {
-        axios.post('http://localhost:3000/tasks', { description: this.state.description }, {
+        axios.post(`${process.env.REACT_APP_API_ENDPOINT}/tasks`, { description: this.state.description }, {
             headers: {
                 Authorization: this.props.authToken
             }

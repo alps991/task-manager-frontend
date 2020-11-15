@@ -7,8 +7,8 @@ import './TaskList.css';
 class TaskList extends React.Component {
 
     state = {
-        sortedBy: 'completed',
-        sortDirection: 'ascending',
+        sortedBy: '',
+        sortDirection: '',
     }
 
     handleSortChange = (sortBy) => {

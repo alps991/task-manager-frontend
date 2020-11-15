@@ -18,7 +18,7 @@ class Dashboard extends React.Component {
     }
 
     updateTaskList = (options) => {
-        let url = 'http://localhost:3000/tasks';
+        let url = `${process.env.REACT_APP_API_ENDPOINT}/tasks`;
         if (options) {
             url += '?sortBy=' + options.sortedBy + ':';
             url += options.sortDirection === 'ascending' ? 'asc' : 'desc';

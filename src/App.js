@@ -17,7 +17,7 @@ class App extends React.Component {
 
   handleLogin = (e, email, password) => {
     e.preventDefault();
-    axios.post('http://localhost:3000/users/login', { email, password }).then(res => {
+    axios.post(`${process.env.REACT_APP_API_ENDPOINT}/users/login`, { email, password }).then(res => {
       const authToken = 'Bearer ' + res.data.token;
       const curUser = res.data.user;
       this.setState(() => ({ curUser, authToken }));
@@ -27,7 +27,7 @@ class App extends React.Component {
   }
 
   handleLogout = () => {
-    axios.post('http://localhost:3000/users/logoutAll', {}, {
+    axios.post(`${process.env.REACT_APP_API_ENDPOINT}/users/logoutAll`, {}, {
       headers: {
         Authorization: this.state.authToken
       }
@@ -41,7 +41,7 @@ class App extends React.Component {
   handleCreateUser = (e, formData) => {
     console.log(formData)
     e.preventDefault();
-    axios.post('http://localhost:3000/users', formData).then(res => {
+    axios.post(`${process.env.REACT_APP_API_ENDPOINT}/users`, formData).then(res => {
       const authToken = 'Bearer ' + res.data.token;
       const curUser = res.data.user;
       this.setState(() => ({
@@ -59,7 +59,7 @@ class App extends React.Component {
     if (!updates.password) {
       delete updates.password;
     }
-    axios.patch('http://localhost:3000/users/me', updates, {
+    axios.patch(`${process.env.REACT_APP_API_ENDPOINT}/users/me`, updates, {
       headers: {
         Authorization: this.state.authToken
       }
@@ -77,7 +77,7 @@ class App extends React.Component {
 
   handleDeleteUser = e => {
     e.preventDefault();
-    axios.delete('http://localhost:3000/users/me', {
+    axios.delete(`${process.env.REACT_APP_API_ENDPOINT}/users/me`, {
       headers: {
         Authorization: this.state.authToken
       }

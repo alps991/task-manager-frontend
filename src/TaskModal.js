@@ -32,7 +32,7 @@ class TaskModal extends React.Component {
 
     handleSaveTask = e => {
         e.preventDefault();
-        axios.patch(`http://localhost:3000/tasks/${this.props.task._id}`, {
+        axios.patch(`${process.env.REACT_APP_API_ENDPOINT}/tasks/${this.props.task._id}`, {
             description: this.state.description,
             completed: this.state.completed,
         }, {
