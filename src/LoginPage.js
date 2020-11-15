@@ -5,8 +5,8 @@ import 'semantic-ui-css/semantic.min.css';
 class LoginPage extends React.Component {
 
     state = {
-        email: 'alper@gmail.com',
-        password: '123456789',
+        email: '',
+        password: '',
     }
 
     handleEmailChange = e => {
