@@ -1,7 +1,7 @@
 import React from 'react';
-import Modal from 'react-modal';
+//import Modal from 'react-modal';
 import axios from 'axios';
-import { Button, Input, Form } from 'semantic-ui-react';
+import { Button, Input, Form, Modal } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
 class AddTaskModal extends React.Component {
@@ -31,39 +31,35 @@ class AddTaskModal extends React.Component {
     }
 
     render() {
-        const customStyles = {
-            content: {
-                top: '50%',
-                left: '50%',
-                right: 'auto',
-                bottom: 'auto',
-                marginRight: '-50%',
-                transform: 'translate(-50%, -50%)'
-            }
-        };
         return (
             <Modal
-                isOpen={this.props.isOpen}
-                style={customStyles}
-                onRequestClose={this.props.closeModal}
-                ariaHideApp={false}
+                open={this.props.isOpen}
+                onClose={this.props.closeModal}
             >
-                <h3>Add a new Task</h3>
-                <Form>
-                    <Input
-                        type="text"
-                        required
-                        autoFocus
-                        value={this.state.description}
-                        onChange={this.handleDescriptionChange}
-                    />
+                <Modal.Header>Add a new Task</Modal.Header>
+                <Modal.Content>
+                    <Form>
+                        <Form.Field>
+                            <Input
+                                type="text"
+                                placeholder="Task Description"
+                                required
+                                autoFocus
+                                value={this.state.description}
+                                onChange={this.handleDescriptionChange}
+                            />
+                        </Form.Field>
+                    </Form>
+                </Modal.Content>
+
+                <Modal.Actions>
                     <Button
                         primary
                         onClick={this.submitTask}
                     >
                         Submit
                 </Button>
-                </Form>
+                </Modal.Actions>
             </Modal>
         );
     }

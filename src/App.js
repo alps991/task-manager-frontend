@@ -73,9 +73,9 @@ class App extends React.Component {
         curUser,
         isUserModalOpen: false,
       }));
-      this.props.closeModal();
+      this.closeModals();
     } catch (err) {
-      console.log(err);
+      console.log(err); 
     }
   }
 

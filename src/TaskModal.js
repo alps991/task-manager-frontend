@@ -1,7 +1,6 @@
 import React from 'react';
-import Modal from 'react-modal';
 import axios from 'axios';
-import { Button, Input, Checkbox, Form } from 'semantic-ui-react';
+import { Button, Input, Checkbox, Form, Modal } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
 class TaskModal extends React.Component {
@@ -50,7 +49,7 @@ class TaskModal extends React.Component {
     handleDeleteTask = async e => {
         e.preventDefault();
         try {
-            await axios.delete(`http://localhost:3000/tasks/${this.props.task._id}`, {
+            await axios.delete(`${process.env.REACT_APP_API_ENDPOINT}/tasks/${this.props.task._id}`, {
                 headers: {
                     Authorization: this.props.authToken
                 }
@@ -64,45 +63,37 @@ class TaskModal extends React.Component {
 
     render() {
 
-        const customStyles = {
-            content: {
-                top: '50%',
-                left: '50%',
-                right: 'auto',
-                bottom: 'auto',
-                marginRight: '-50%',
-                transform: 'translate(-50%, -50%)'
-            }
-        };
-
         return (
             <Modal
-                isOpen={this.props.isOpen}
-                style={customStyles}
-                onRequestClose={this.props.closeModal}
-                ariaHideApp={false}
+                open={this.props.isOpen}
+                onClose={this.props.closeModal}
             >
-                <Form>
-                    <Form.Field>
-                        <label>Description:</label>
-                        <Input
-                            type="text"
-                            onChange={this.handleChangeDescription}
-                            required
-                            value={this.state.description}
-                        />
-                    </Form.Field>
-                    <Form.Field>
-                        <label>Completed:</label>
-                        <Checkbox
-                            checked={this.state.completed}
-                            onChange={this.handleChangeCompletion}
-                        />
-                    </Form.Field>
+                <Modal.Header>Edit Task</Modal.Header>
+                <Modal.Content>
+                    <Form>
+                        <Form.Field>
+                            <label>Description:</label>
+                            <Input
+                                type="text"
+                                onChange={this.handleChangeDescription}
+                                required
+                                value={this.state.description}
+                            />
+                        </Form.Field>
+                        <Form.Field>
+                            <label>Completed:</label>
+                            <Checkbox
+                                checked={this.state.completed}
+                                onChange={this.handleChangeCompletion}
+                            />
+                        </Form.Field>
+                    </Form>
+                </Modal.Content>
+                <Modal.Actions>
                     <Button primary onClick={this.handleSaveTask}>Save Changes</Button>
                     <Button onClick={this.handleDeleteTask}>Delete Task</Button>
                     <Button onClick={this.props.closeModal}>Close</Button>
-                </Form>
+                </Modal.Actions>
             </Modal>
         )
     }

@@ -1,7 +1,6 @@
 import React from 'react';
-import Modal from 'react-modal';
 import moment from 'moment';
-import { Button, Input, Form } from 'semantic-ui-react';
+import { Button, Input, Form, Modal } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
 class UserModal extends React.Component {
@@ -39,66 +38,62 @@ class UserModal extends React.Component {
         const age = e.target.value;
         const reg = /^\d{0,3}$/;
         if (!age || age.match(reg)) {
-            this.setState(() => ({ age }));
+            this.setState(() => ({ age: parseInt(age) }));
         }
     }
 
     render() {
 
         const createdAt = this.props.user ? moment(this.props.user.createdAt).format('MMM Do YYYY') : null;
-        const customStyles = {
-            content: {
-                top: '50%',
-                left: '50%',
-                right: 'auto',
-                bottom: 'auto',
-                marginRight: '-50%',
-                transform: 'translate(-50%, -50%)'
-            }
-        };
         return (
             <Modal
-                isOpen={this.props.isOpen}
-                style={customStyles}
-                onRequestClose={this.props.closeModal}
-                ariaHideApp={false}
+                open={this.props.isOpen}
+                onClose={this.props.closeModal}
             >
-                <Form>
-                    <Form.Field>
-                        <label>Name:</label>
-                        <Input
-                            type="text"
-                            onChange={this.handleChangeName}
-                            required
-                            value={this.state.name}
-                        />
-                    </Form.Field>
-                    <Form.Field>
-                        <label>Email:</label>
-                        <Input
-                            type="text"
-                            onChange={this.handleChangeEmail}
-                            required
-                            value={this.state.email}
-                        />
-                    </Form.Field>
-                    <Form.Field>
-                        <label>Age:</label>
-                        <Input
-                            type="text"
-                            onChange={this.handleChangeAge}
-                            required
-                            value={this.state.age}
-                        />
-                    </Form.Field>
-                    <Form.Field>
-                        <label>Password:</label>
-                        <Input
-                            type="password"
-                            onChange={this.handleChangePassword}
-                            value={this.state.password}
-                        />
-                    </Form.Field>
+                <Modal.Content>
+                    <Form>
+                        <Form.Field>
+                            <label>Name:</label>
+                            <Input
+                                type="text"
+                                placeholder="Name"
+                                onChange={this.handleChangeName}
+                                required
+                                value={this.state.name}
+                            />
+                        </Form.Field>
+                        <Form.Field>
+                            <label>Email:</label>
+                            <Input
+                                type="text"
+                                placeholder="Email"
+                                onChange={this.handleChangeEmail}
+                                required
+                                value={this.state.email}
+                            />
+                        </Form.Field>
+                        <Form.Field>
+                            <label>Age:</label>
+                            <Input
+                                type="text"
+                                placeholder="Age"
+                                onChange={this.handleChangeAge}
+                                required
+                                value={this.state.age}
+                            />
+                        </Form.Field>
+                        <Form.Field>
+                            <label>Password:</label>
+                            <Input
+                                type="password"
+                                placeholder="Password"
+                                onChange={this.handleChangePassword}
+                                value={this.state.password}
+                            />
+                        </Form.Field>
+                    </Form>
+                </Modal.Content>
+                <Modal.Actions>
                     <Button onClick={this.props.closeModal}>Close</Button>
 
                     {
@@ -112,7 +107,7 @@ class UserModal extends React.Component {
                         ) : <Button primary onClick={(e) => this.props.handleCreateUser(e, this.state)}>Register Account</Button>
                     }
 
-                </Form>
+                </Modal.Actions>
 
 
             </Modal>

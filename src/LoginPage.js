@@ -24,28 +24,26 @@ class LoginPage extends React.Component {
             <div>
                 <Form>
                     <h2>Login</h2>
-                    <Form.Field>
-                        <label>Email</label>
-                        <Input
-                            id="email-input"
-                            type="text"
-                            placeholder="Email"
-                            required
-                            onChange={this.handleEmailChange}
-                            value={this.state.email}
-                        />
-                    </Form.Field>
-                    <Form.Field>
-                        <label>Password</label>
-                        <Input
-                            id="password-input"
-                            type="password"
-                            placeholder="password"
-                            required
-                            onChange={this.handlePasswordChange}
-                            value={this.state.password}
-                        />
-                    </Form.Field>
+                    <Form.Input
+                        id="email-input"
+                        type="text"
+                        placeholder="Email"
+                        label="Email"
+                        // error={{
+                        //     content: 'Please enter a valid email address',
+                        //     pointing: 'below',
+                        // }}
+                        onChange={this.handleEmailChange}
+                        value={this.state.email}
+                    />
+                    <Form.Input
+                        id="password-input"
+                        type="password"
+                        label="Password"
+                        placeholder="Password"
+                        onChange={this.handlePasswordChange}
+                        value={this.state.password}
+                    />
                     <Button
                         primary
                         onClick={(e) => this.props.handleLogin(e, this.state.email, this.state.password)}
